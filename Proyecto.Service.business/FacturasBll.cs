@@ -30,12 +30,16 @@ namespace Proyecto.Service.business
         public static List<Facturas> GetFacturas()
         {
             List<Facturas> lstFacturas = db.GetCollection<Facturas>("Facturas").Find(_ => true).ToList();   
-            
 
+            return lstFacturas;
 
+        }
 
-            // = Json2List(collection);
-            return null;
+        public static string DeleteFactura(string id)
+        {
+            db.GetCollection<Facturas>("Facturas").FindOneAndDelete( x => x.CodigoFactura == id);
+
+            return "Factura eliminada";
 
         }
 
