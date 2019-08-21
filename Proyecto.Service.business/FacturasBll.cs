@@ -51,6 +51,19 @@ namespace Proyecto.Service.business
 
         }
 
+        public static object PutFacturaById(string id, Facturas x)
+        {
+            var filter = Builders<Facturas>.Filter.Eq(s => s.CodigoFactura, id);
+            var lstFacturas = db.GetCollection<Facturas>("Facturas").ReplaceOneAsync(filter, x);
+
+            return lstFacturas;
+
+            //MyType myObject; // passed in 
+            //var filter = Builders<MyType>.Filter.Eq(s => s.Id, id);
+            //var result = await collection.ReplaceOneAsync(filter, myObject)
+
+        }
+
         //private static List<Facturas> Json2List(IMongoCollection<BsonDocument> collection)
         //{
         //    List<Facturas> lstResult = new List<Facturas>();
