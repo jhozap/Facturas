@@ -43,6 +43,14 @@ namespace Proyecto.Service.business
 
         }
 
+        public static List<Facturas> GetFacturaById(string id)
+        {
+            List<Facturas> lstFacturas = db.GetCollection<Facturas>("Facturas").Find(x => x.CodigoFactura == id).ToList();
+
+            return lstFacturas;
+
+        }
+
         //private static List<Facturas> Json2List(IMongoCollection<BsonDocument> collection)
         //{
         //    List<Facturas> lstResult = new List<Facturas>();
