@@ -29,7 +29,7 @@ namespace Proyecto.Service.business
 
         public static List<Facturas> GetFacturas()
         {
-            List<Facturas> lstFacturas = db.GetCollection<Facturas>("Facturas").Find("").ToList();   
+            List<Facturas> lstFacturas = db.GetCollection<Facturas>("Facturas").Find(_ => true).ToList();   
             
 
 
