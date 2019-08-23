@@ -63,6 +63,24 @@ namespace Proyecto.Service.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpGet]
+        public IHttpActionResult GetFacturaById(string id)
+        {
+            try {
+                var res = FacturasBll.GetFacturaById(id);
+                
+                return Ok(res);
+            }
+            catch (Exception ex) {
+                return InternalServerError();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
         public IHttpActionResult DeleteFacturas(string id)
         {
