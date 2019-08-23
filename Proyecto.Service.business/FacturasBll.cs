@@ -19,61 +19,87 @@ namespace Proyecto.Service.business
         private static IMongoDatabase db = client.GetDatabase(ConfigurationManager.AppSettings["Database"]);
         
         
-        public static void SetFactura(Facturas factura)
-        {            
-            var collection = db.GetCollection<BsonDocument>("Facturas");
-            BsonDocument document = factura.ToBsonDocument();
-            collection.InsertOne(document);
+        public static string SetFactura(Facturas factura)
+        {
+            try
+            {
+                var collection = db.GetCollection<BsonDocument>("Facturas");
+                BsonDocument document = factura.ToBsonDocument();
+                collection.InsertOne(document);
+
+                return "Factura Creada";
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
 
         public static List<Facturas> GetFacturas()
         {
-            List<Facturas> lstFacturas = db.GetCollection<Facturas>("Facturas").Find(_ => true).ToList();   
+            try
+            {
+                List<Facturas> lstFacturas = db.GetCollection<Facturas>("Facturas").Find(_ => true).ToList();
 
-            return lstFacturas;
+                return lstFacturas;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
 
         public static string DeleteFactura(string id)
         {
-            db.GetCollection<Facturas>("Facturas").FindOneAndDelete( x => x.CodigoFactura == id);
+            try
+            {
+                db.GetCollection<Facturas>("Facturas").FindOneAndDelete(x => x.CodigoFactura == id);
 
-            return "Factura eliminada";
+                return "Factura eliminada";
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
 
         }
 
         public static List<Facturas> GetFacturaById(string id)
         {
-            List<Facturas> lstFacturas = db.GetCollection<Facturas>("Facturas").Find(x => x.CodigoFactura == id).ToList();
+            try
+            {
+                List<Facturas> lstFacturas = db.GetCollection<Facturas>("Facturas").Find(x => x.CodigoFactura == id).ToList();
 
-            return lstFacturas;
+                return lstFacturas;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
 
-        public static object PutFacturaById(string id, Facturas x)
+        public static string PutFacturaById(string id, Facturas x)
         {
-            var filter = Builders<Facturas>.Filter.Eq(s => s.CodigoFactura, id);
-            var lstFacturas = db.GetCollection<Facturas>("Facturas").ReplaceOneAsync(filter, x);
 
-            return lstFacturas;
+            try
+            {
+                x._id = ObjectId.Parse(id);
+                var collection = db.GetCollection<BsonDocument>("Facturas");
+                var filter = Builders<BsonDocument>.Filter.Eq("_id", ObjectId.Parse(id));
+                collection.ReplaceOne(filter, x.ToBsonDocument());
 
-            //MyType myObject; // passed in 
-            //var filter = Builders<MyType>.Filter.Eq(s => s.Id, id);
-            //var result = await collection.ReplaceOneAsync(filter, myObject)
-
+                return "Factura Actualizada";
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
-
-        //private static List<Facturas> Json2List(IMongoCollection<BsonDocument> collection)
-        //{
-        //    List<Facturas> lstResult = new List<Facturas>();
-
-        //    return lstResult;
-        //}
-
-        //public static Facturas Json2Object()
-        //{
-
-        //}
+        
     }
 }

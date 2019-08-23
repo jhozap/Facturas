@@ -34,7 +34,7 @@ namespace Proyecto.Service.Api.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError();
+                return InternalServerError(ex);
             }
         }
 
@@ -48,13 +48,13 @@ namespace Proyecto.Service.Api.Controllers
 
             try
             {
-                FacturasBll.GetFacturas();
+                var res = FacturasBll.GetFacturas();
 
-                return Ok(true);
+                return Ok(res);
             }
             catch (Exception ex)
             {
-                return InternalServerError();
+                return InternalServerError(ex);
             }
         }
 
@@ -72,7 +72,7 @@ namespace Proyecto.Service.Api.Controllers
                 return Ok(res);
             }
             catch (Exception ex) {
-                return InternalServerError();
+                return InternalServerError(ex);
             }
         }
 
@@ -86,12 +86,32 @@ namespace Proyecto.Service.Api.Controllers
         {
             try
             {
-                FacturasBll.DeleteFactura(id);
-                return Ok(true);
+                var res = FacturasBll.DeleteFactura(id);
+                return Ok(res);
             }
             catch (Exception ex)
             {
-                return InternalServerError();
+                return InternalServerError(ex);
+            }
+        }
+
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="id"></param>
+       /// <param name="factura"></param>
+       /// <returns></returns>
+        [HttpPut]
+        public IHttpActionResult PutFacturas(string id, [FromBody] Facturas factura)
+        {
+            try
+            {
+                var res = FacturasBll.PutFacturaById(id, factura);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
             }
         }
 
